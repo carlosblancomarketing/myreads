@@ -14,18 +14,31 @@ class BooksApp extends React.Component {
     this.setState({ showSearchPage: false });
   }
 
-  componentDidMount() {
+  updateBooks = () => {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
   }
+
+  componentDidMount() {
+    this.updateBooks()
+  }
+
+  handleUpdateBook = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+      .then((res) => {
+        console.log('res: ', res)
+        this.updateBooks()
+      })
+  }
+
 
   render() {
     return (
       <Router>
 
         <Route path="/" exact render={() => (
-          <Dashboard books={this.state.books}/>
+          <Dashboard books={this.state.books} handleUpdateBook={this.handleUpdateBook} />
         )} />
 
         <Route path="/search" render={() => (

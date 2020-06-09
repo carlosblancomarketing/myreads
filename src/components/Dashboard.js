@@ -20,18 +20,22 @@ class Dashboard extends Component {
                                             books={this.props.books.filter(
                                                 (book) => { return book.shelf === "currentlyReading" }
                                             )}
+                                            handleUpdateBook={this.props.handleUpdateBook}
                                         />
                                         <Bookself
                                             title="Want to Read"
                                             books={this.props.books.filter(
                                                 (book) => { return book.shelf === "wantToRead" }
                                             )}
+                                            handleUpdateBook={this.props.handleUpdateBook}
+
                                         />
                                         <Bookself
                                             title="Read"
                                             books={this.props.books.filter(
                                                 (book) => { return book.shelf === "read" }
                                             )}
+                                            handleUpdateBook={this.props.handleUpdateBook}
                                         />
                                     </div>
                                 ) : null
