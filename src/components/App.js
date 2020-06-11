@@ -1,9 +1,11 @@
 import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import * as BooksAPI from '../BooksAPI'
 import './App.css'
+
 import Dashboard from './Dashboard';
 import SearchBooks from './SearchBooks';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 class BooksApp extends React.Component {
   state = {
@@ -24,11 +26,40 @@ class BooksApp extends React.Component {
     this.updateBooks()
   }
 
-  handleUpdateBook = (book, shelf) => {
-    BooksAPI.update(book, shelf)
+  handleUpdateBook = (updatedBook, shelf) => {
+    BooksAPI.update(updatedBook, shelf)
       .then((res) => {
-        console.log('res: ', res)
-        this.updateBooks()
+        // console.log('res: ', res);
+        // console.log('updatedBook: ', updatedBook);
+
+        let bookInState = false
+        let updatedBooks = this.state.books.map((book) => {
+          if (book.id === updatedBook.id) {
+            bookInState = true
+            return {
+              ...book,
+              'shelf': shelf,
+            }
+          } else {
+            return book
+          }
+        })
+
+
+        if (!bookInState) {
+          updatedBooks = updatedBooks.concat[
+            {
+              ...updatedBook,
+              'shelf': shelf
+            }
+          ]
+        }
+
+        console.log(updatedBooks)
+
+        this.setState({
+          books: updatedBooks,
+        })
       })
   }
 
@@ -42,7 +73,7 @@ class BooksApp extends React.Component {
         )} />
 
         <Route path="/search" render={() => (
-          <SearchBooks handleUpdateBook={this.handleUpdateBook} BooksAPI={BooksAPI} shelfBooks={this.state.books}/>
+          <SearchBooks handleUpdateBook={this.handleUpdateBook} BooksAPI={BooksAPI} shelfBooks={this.state.books} />
         )} />
 
       </Router>
