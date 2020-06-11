@@ -9,12 +9,33 @@ class SearchBooks extends Component {
     }
 
     getBooksFromApi = (query) => {
-        this.props.BooksAPI.search(query).then((books) => {
+        let showBooks = true
+        let newBooks = []
 
-            let showBooks = true
+        this.props.BooksAPI.search(query).then((books) => {
 
             try {
                 showBooks = !(books.error)
+                
+                let shelfBooksIds = {}
+                this.props.shelfBooks.map((book) => {
+                    shelfBooksIds[book.id] = book.shelf
+                })
+
+                // console.log(shelfBooksIds)
+
+                newBooks = books.map((book) => {
+                    let newBookObj = {};
+                    book.id in shelfBooksIds 
+                        ? newBookObj = {...book, 'shelf':shelfBooksIds[book.id]} 
+                        : newBookObj = book
+
+                    return newBookObj
+                })
+
+                // console.log(newBooks);
+
+
             } catch (error) {
                 showBooks = !((typeof books === 'undefined'))
             }
@@ -22,7 +43,7 @@ class SearchBooks extends Component {
             this.setState((prevState) => {
                 return {
                     query,
-                    books: showBooks ? books : [],
+                    books: showBooks ? newBooks : [],
                 }
             })
         })
@@ -47,14 +68,7 @@ class SearchBooks extends Component {
                     <Link className="close-search" to="/" />
 
                     <div className="search-books-input-wrapper">
-                        {/*
-            NOTES: The search from BooksAPI is limited to a particular set of search terms.
-            You can find these search terms here:
-            https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-            However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-            you don't find a specific author or title. Every search is limited by search terms.
-          */}
+                       
                         <input
                             type="text"
                             placeholder="Search by title or author"
@@ -72,20 +86,14 @@ class SearchBooks extends Component {
                                         key={book.id}
                                         book={book}
                                         handleUpdateBook={this.props.handleUpdateBook}
+                                        shelfBooks={this.props.shelfBooks}
                                     />
 
                                 ))}
                             </div>
                             : <div>Not matching books</div>
                         }
-                        {/* {this.state.books.map((book) => (
-                            <Book
-                                key={book.id}
-                                book={book}
-                                handleUpdateBook={this.props.handleUpdateBook}
-                            />
-
-                        ))} */}
+                       
                     </ol>
                 </div>
             </div>

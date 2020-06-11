@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class Book extends Component {
 
@@ -9,13 +10,18 @@ class Book extends Component {
         // console.log('book: ', this.props.book)
         // console.log('shelf: ', shelf)
         this.props.handleUpdateBook(book, shelf)
+        this.props.history.push('/')
+
     }
 
     render() {
         const { book } = this.props
-        const bookCover = book.hasOwnProperty('imageLinks') 
+        const bookCover = book.hasOwnProperty('imageLinks')
             ? book.imageLinks.smallThumbnail
             : process.env.PUBLIC_URL + '../no-cover.jpg';
+        const defaultValue = book.hasOwnProperty('shelf')
+            ? book.shelf
+            : "move"
         return (
             <li>
                 <div className="book">
@@ -27,7 +33,7 @@ class Book extends Component {
                                 backgroundImage: `url(${bookCover})`
                             }}></div>
                         <div className="book-shelf-changer">
-                            <select onChange={this.updateBook} defaultValue={book.shelf}>
+                            <select onChange={this.updateBook} defaultValue={defaultValue}>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
@@ -45,4 +51,4 @@ class Book extends Component {
     }
 }
 
-export default Book;
+export default withRouter(Book);
