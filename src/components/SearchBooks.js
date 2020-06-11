@@ -28,7 +28,7 @@ class SearchBooks extends Component {
                     let newBookObj = {};
                     book.id in shelfBooksIds 
                         ? newBookObj = {...book, 'shelf':shelfBooksIds[book.id]} 
-                        : newBookObj = book
+                        : newBookObj = {...book, 'shelf':'none'}
 
                     return newBookObj
                 })

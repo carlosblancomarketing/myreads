@@ -13,7 +13,7 @@ class Book extends Component {
         this.props.history.push('/')
 
     }
-
+    
     render() {
         const { book } = this.props
         const bookCover = book.hasOwnProperty('imageLinks')
