@@ -43,7 +43,7 @@ class Book extends Component {
                         </div>
                     </div>
                     <div className="book-title">{book.title}</div>
-                    {book.authors.length > 0 && <div className="book-authors">{book.authors.join(", ")}</div>}
+                    {book.hasOwnProperty('authors') && <div className="book-authors">{book.authors.join(", ")}</div>}
 
                 </div>
             </li>
