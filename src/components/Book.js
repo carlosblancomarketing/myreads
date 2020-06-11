@@ -8,16 +8,24 @@ class Book extends Component {
 
         // console.log('book: ', this.props.book)
         // console.log('shelf: ', shelf)
-        this.props.handleUpdateBook(book,shelf)
+        this.props.handleUpdateBook(book, shelf)
     }
 
     render() {
         const { book } = this.props
+        const bookCover = book.hasOwnProperty('imageLinks') 
+            ? book.imageLinks.smallThumbnail
+            : process.env.PUBLIC_URL + '../no-cover.jpg';
         return (
             <li>
                 <div className="book">
                     <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
+                        <div className="book-cover"
+                            style={{
+                                width: 128,
+                                height: 193,
+                                backgroundImage: `url(${bookCover})`
+                            }}></div>
                         <div className="book-shelf-changer">
                             <select onChange={this.updateBook} defaultValue={book.shelf}>
                                 <option value="move" disabled>Move to...</option>
@@ -29,8 +37,8 @@ class Book extends Component {
                         </div>
                     </div>
                     <div className="book-title">{book.title}</div>
-                    { book.author && <div className="book-authors">{book.authors[0]}</div>}
-                    
+                    {book.author && <div className="book-authors">{book.authors[0]}</div>}
+
                 </div>
             </li>
         )
