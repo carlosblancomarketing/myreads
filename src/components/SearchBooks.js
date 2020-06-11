@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { debounce } from 'underscore';
 import Book from './Book'
 
 class SearchBooks extends Component {
@@ -60,6 +61,10 @@ class SearchBooks extends Component {
 
     }
 
+    handleUpdateQuery = (e) => {
+        debounce(this.updateQuery(e), 250)
+    }
+
     render() {
 
         return (
@@ -72,7 +77,7 @@ class SearchBooks extends Component {
                         <input
                             type="text"
                             placeholder="Search by title or author"
-                            onChange={this.updateQuery}
+                            onChange={this.handleUpdateQuery}
                         />
 
                     </div>
