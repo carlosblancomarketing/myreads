@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Bookself from './Bookshelf';
 
-const Dashboard = () => {
+const Dashboard = (props) => {
     return (
         <div className="app">
             <div className="list-books">
@@ -11,30 +11,29 @@ const Dashboard = () => {
                 </div>
                 <div className="list-books-content">
                     <div>
-                        {
-                            this.props.books.length > 0 ? (
+                        {props.books.length > 0 ? (
                                 <div>
                                     <Bookself
                                         title="Currently Reading"
-                                        books={this.props.books.filter(
+                                        books={props.books.filter(
                                             (book) => { return book.shelf === "currentlyReading" }
                                         )}
-                                        handleUpdateBook={this.props.handleUpdateBook}
+                                        handleUpdateBook={props.handleUpdateBook}
                                     />
                                     <Bookself
                                         title="Want to Read"
-                                        books={this.props.books.filter(
+                                        books={props.books.filter(
                                             (book) => { return book.shelf === "wantToRead" }
                                         )}
-                                        handleUpdateBook={this.props.handleUpdateBook}
+                                        handleUpdateBook={props.handleUpdateBook}
 
                                     />
                                     <Bookself
                                         title="Read"
-                                        books={this.props.books.filter(
+                                        books={props.books.filter(
                                             (book) => { return book.shelf === "read" }
                                         )}
-                                        handleUpdateBook={this.props.handleUpdateBook}
+                                        handleUpdateBook={props.handleUpdateBook}
                                     />
                                 </div>
                             ) : null
